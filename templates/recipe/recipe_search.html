@@ -31,11 +31,7 @@
 
       <button type="submit">Search Recipe</button>
     </form>
-    {% if recipe_info %}
     <h2>Recipe Result</h2>
-    <pre>{{ recipe_info }}</pre>
-    {% else %}
-    <h2>No Recipe Found</h2>
-    {% endif %}
+    <div>{{ content|safe }}</div>
   </body>
 </html>

@@ -1,0 +1,26 @@
+<div class="columns is-centered" style="padding-top: 80px">
+  <div class="column is-half">
+    {% for item in object_list %}
+    <div class="box">
+      <article class="media">
+        <div class="media-content">
+          <div class="content">
+            <a href="">
+              <strong class="has-text-black is-size-4"
+                >{{ item.user_ingredients }}</strong
+              >
+            </a>
+            <p class="is-size-5 mt-2">
+              <span class="has-text-grey">by</span>
+              <strong class="has-text-black">{{ item.author }}</strong>
+            </p>
+            <p class="is-size-6 mt-2">{{ item.created_at|date:"Y/m/d H:i" }}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+    {% empty %}
+    <p class="has-text-centered is-size-5">No posts</p>
+    {% endfor %}
+  </div>
+</div>

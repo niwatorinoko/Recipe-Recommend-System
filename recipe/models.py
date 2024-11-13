@@ -20,17 +20,16 @@ class Recipe(Common):
     レシピモデル
     """
     # user input :weather, mood, budget, num_people
-    title = models.CharField(max_length=50, verbose_name='Title')
     user_ingredients = models.TextField(verbose_name='User Ingredients', blank=True)
     weather = models.CharField(max_length=50, verbose_name='Weather', blank=True)
     mood = models.CharField(max_length=50, verbose_name='Mood', blank=True)
     budget = models.IntegerField(verbose_name='Budget (NTD)', null=True, blank=True)
     num_people = models.IntegerField(verbose_name='Serving Size', null=True, blank=True)
     # response
-    recipe_info = models.JSONField(verbose_name='Recipe Info', blank=True, null=True)
+    recipe_info = models.TextField(verbose_name='Recipe Info', blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return self.user_ingredients
 
     def get_absolute_url(self):
         return reverse('recipes:detail', kwargs={'pk': self.pk})
