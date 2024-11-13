@@ -33,3 +33,19 @@ class Recipe(Common):
 
     def get_absolute_url(self):
         return reverse('recipes:detail', kwargs={'pk': self.pk})
+
+class Diary(Common):
+    """
+    日記モデル
+    """
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, verbose_name='Recipe', null=True, blank=True)
+    rating = models.IntegerField(verbose_name='Rating', null=True, blank=True)
+    comments = models.TextField(verbose_name='Comments', blank=True, null=True)
+    
+    # 日記としての追加フィールド
+    rating = models.IntegerField(verbose_name='Rating', null=True, blank=True)
+    comments = models.TextField(verbose_name='Comments', blank=True, null=True)
+
+
+    def get_absolute_url(self):
+        return reverse('recipe:diary_detail', kwargs={'pk': self.pk})

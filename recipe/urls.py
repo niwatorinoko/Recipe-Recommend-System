@@ -1,15 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
-from recipe.views import RecipeSearchView, RecipesListView
+from recipe.views import RecipeSearchView, RecipesListView, RecipesCreateView, DiaryCreateView, DiaryDetailView
 
 
 app_name = 'recipe'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('recipe-search/', RecipeSearchView.as_view(), name='recipe_search'),
     path('', RecipesListView.as_view(), name='list'),
-    # path('detail/<int:pk>', PostsDetailView.as_view(), name='detail'),
-    # path('create', PostsCreateView.as_view(), name='create'),
-    # path('delete/<int:pk>', PostsDeleteView.as_view(), name='delete'),
+    path('recipe-search/', RecipeSearchView.as_view(), name='recipe_search'),
+    path('create/', RecipesCreateView.as_view(), name='create'),
+    path('create-diary/<int:recipe_id>/', DiaryCreateView.as_view(), name='create_diary'),
+    path('diary/<int:pk>/', DiaryDetailView.as_view(), name='diary_detail'),
 ]

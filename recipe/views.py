@@ -1,11 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from reciperecommendsystem.settings import GOOGLE_API_KEY
 from rest_framework.views import APIView
 import google.generativeai as genai
-from .models import Recipe
+from .models import Recipe, Diary
 import markdown
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, DetailView
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 
 class RecipesListView(LoginRequiredMixin, ListView):
     model = Recipe
@@ -39,9 +42,8 @@ class RecipeSearchView(APIView):
         """
 
         response = model.generate_content(prompt)
-        recipe_info = response.text
+        recipe_info = markdown.markdown(response.text)
 
-        html_content = markdown.markdown(recipe_info)
         # 結果をテンプレートに渡す
         context = {
             'recipe_info': recipe_info,
@@ -50,5 +52,80 @@ class RecipeSearchView(APIView):
             'mood': mood,
             'budget': budget,
             'num_people': num_people,
+            'recipe_info': recipe_info,
         }
-        return render(request, 'recipe/recipe_search.html', {'content': html_content})
+        return render(request, 'recipe/recipe_search.html', context)
+    
+
+class RecipesCreateView(LoginRequiredMixin, CreateView):
+    model = Recipe
+    template_name = 'recipe/recipes_create.html'
+    fields = ['user_ingredients', 'weather', 'mood', 'budget', 'num_people']
+    success_url = reverse_lazy('recipe:list')
+
+    def form_valid(self, form):
+        # フォームからのユーザー入力を取得
+        form.instance.author = self.request.user
+        user_ingredients = form.cleaned_data['user_ingredients']
+        weather = form.cleaned_data['weather']
+        mood = form.cleaned_data['mood']
+        budget = form.cleaned_data['budget']
+        num_people = form.cleaned_data['num_people']
+
+        # Google Generative AIの設定
+        genai.configure(api_key=GOOGLE_API_KEY)
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        
+        # プロンプト作成
+        prompt = f"""
+        Please suggest a creative, original recipe using the ingredients: {user_ingredients}. 
+        The recipe should be {mood}, suitable for a {weather} day, serve {num_people} people, 
+        and stay within a budget of {budget} NTD. Please think  title, recipe_ingredients, instructions, nutrition_info, preparation_time, budget.
+        Avoid using copyrighted text.
+        """
+
+        # AIからレシピ情報を生成
+        response = model.generate_content(prompt)
+        recipe_info = markdown.markdown(response.text) if response else "No recipe found."
+
+        # レシピ情報を保存
+        form.instance.recipe_info = recipe_info
+        self.object = form.save()
+
+        # レシピ生成後、DiaryCreateViewにリダイレクト
+        return redirect(reverse('recipe:create_diary', kwargs={'recipe_id': self.object.id}))
+
+class DiaryCreateView(LoginRequiredMixin, CreateView):
+    model = Diary
+    template_name = 'recipe/diary_create.html'
+    fields = ['rating', 'comments']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipe_id = self.kwargs.get('recipe_id')
+        context['recipe'] = Recipe.objects.get(id=recipe_id)
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        recipe_id = self.kwargs.get('recipe_id')
+        recipe = Recipe.objects.get(id=recipe_id)
+        form.instance.recipe = recipe
+        form.instance.user_ingredients = recipe.user_ingredients
+        form.instance.weather = recipe.weather
+        form.instance.mood = recipe.mood
+        form.instance.budget = recipe.budget
+        form.instance.num_people = recipe.num_people
+        form.instance.recipe_info = recipe.recipe_info
+        self.object = form.save()
+        return redirect('recipe:diary_detail', pk=self.object.id)
+
+class DiaryDetailView(DetailView):
+    model = Diary
+    template_name = 'recipe/diary_detail.html'
+    context_object_name = 'diary'
+
+    def get_object(self):
+        # `pk` に基づいて Diary オブジェクトを取得
+        diary_id = self.kwargs.get('pk')
+        return get_object_or_404(Diary, pk=diary_id)

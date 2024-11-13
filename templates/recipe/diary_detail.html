@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Diary Entry Details</h2>
+<div>
+  <h3>Recipe Info</h3>
+  <p>{{ diary.recipe.recipe_info|safe }}</p>
+</div>
+<div>
+  <h3>Ingredients</h3>
+  <p>{{ diary.user_ingredients }}</p>
+  <p>Weather: {{ diary.weather }}</p>
+  <p>Mood: {{ diary.mood }}</p>
+  <p>Budget: {{ diary.budget }} NTD</p>
+  <p>Serving Size: {{ diary.num_people }} people</p>
+</div>
+<div>
+  <h3>Comments</h3>
+  <p>Rating: {{ diary.rating }}/5</p>
+  <p>{{ diary.comments }}</p>
+</div>
+<a href="{% url 'recipe:list' %}">Back to Recipe List</a>
+{% endblock %}

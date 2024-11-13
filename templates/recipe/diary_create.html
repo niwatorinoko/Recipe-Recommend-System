@@ -1,0 +1,9 @@
+<h2>Generated Recipe</h2>
+<p>{{ recipe.recipe_info|safe }}</p>
+
+<h3>Save this recipe with additional details:</h3>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Save Recipe</button>
+  <a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+</form>
