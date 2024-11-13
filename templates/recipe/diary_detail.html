@@ -18,4 +18,10 @@
   <p>{{ diary.comments }}</p>
 </div>
 <a href="{% url 'recipe:list' %}">Back to Recipe List</a>
-{% endblock %}
+
+<!-- 削除ボタン（投稿者のみが表示可能） -->
+{% if request.user == diary.author %}
+<a class="button is-danger" href="{% url 'recipe:delete_diary' diary.id %}"
+  >Delete</a
+>
+{% endif %}{% endblock %}

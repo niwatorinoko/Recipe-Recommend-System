@@ -4,18 +4,39 @@ from rest_framework.views import APIView
 import google.generativeai as genai
 from .models import Recipe, Diary
 import markdown
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 
+class AuthorOnly(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        """
+        投稿の作者とログインしてるユーザーが同じかどうか判定する
+        """
+        diary = self.get_object()
+        return diary.author == self.request.user
+    
+    def handle_no_permission(self):
+        """
+        test_funcでFalseだった場合特定のページにリダイレクトする
+        """
+        return reverse('authentications:profile', kwargs={'pk': self.request.user.pk})
+    
 
 class RecipesListView(LoginRequiredMixin, ListView):
     model = Recipe
     template_name = 'recipe/recipes_list.html'
+    context_object_name = 'recipes'
+    paginate_by = 5  # ページネーションの1ページあたりのアイテム数
 
     def get_queryset(self):
-        return Recipe.objects.order_by('-created_at')
+        queryset = Recipe.objects.order_by('-created_at')
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            queryset = queryset.filter(recipe_info__icontains=keyword)  # レシピ情報にキーワードを含むレシピを検索
+        return queryset
+
 
 # input : user_ingredients, weather, mood, budget, num_people
 # output : title, recipe_ingredients, instructions, nutrition_info, preparation_time, budget, num_people    
@@ -129,3 +150,29 @@ class DiaryDetailView(DetailView):
         # `pk` に基づいて Diary オブジェクトを取得
         diary_id = self.kwargs.get('pk')
         return get_object_or_404(Diary, pk=diary_id)
+
+
+class DiaryDeleteView(AuthorOnly, DeleteView):
+    """
+    Diary を削除するためのビュー
+    """
+    model = Diary
+    template_name = 'recipe/diary_delete.html'
+    context_object_name = 'diary'
+    # success_url = reverse_lazy('authentications:profile')
+
+    def get_object(self, queryset=None):
+        """
+        Diary オブジェクトを取得し、削除の権限があるか確認
+        """
+        diary_id = self.kwargs.get('pk')
+        return get_object_or_404(Diary, pk=diary_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe_info'] = self.object.recipe.recipe_info
+        return context
+
+    def get_success_url(self):
+        # 現在ログインしているユーザーのプロフィールページにリダイレクト
+        return reverse('authentications:profile', kwargs={'pk': self.request.user.pk})

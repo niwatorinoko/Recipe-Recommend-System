@@ -1,26 +1,33 @@
-<div class="columns is-centered" style="padding-top: 80px">
-  <div class="column is-half">
-    {% for item in object_list %}
-    <div class="box">
-      <article class="media">
-        <div class="media-content">
-          <div class="content">
-            <a href="">
-              <strong class="has-text-black is-size-4"
-                >{{ item.user_ingredients }}</strong
-              >
-            </a>
-            <p class="is-size-5 mt-2">
-              <span class="has-text-grey">by</span>
-              <strong class="has-text-black">{{ item.author }}</strong>
-            </p>
-            <p class="is-size-6 mt-2">{{ item.created_at|date:"Y/m/d H:i" }}</p>
-          </div>
-        </div>
-      </article>
-    </div>
-    {% empty %}
-    <p class="has-text-centered is-size-5">No posts</p>
-    {% endfor %}
+<form method="get" action="{% url 'recipe:list' %}">
+  <input
+    type="text"
+    name="keyword"
+    placeholder="レシピを検索"
+    value="{{ request.GET.keyword }}"
+  />
+  <button type="submit">検索</button>
+</form>
+
+{% for recipe in object_list %}
+<div>
+  <p>{{ recipe.recipe_info|safe }}</p>
+</div>
+{% endfor %}
+
+<!-- ページネーション -->
+<div>
+  <span>ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  <div>
+    {% if page_obj.has_previous %}
+    <a
+      href="?keyword={{ request.GET.keyword }}&page={{ page_obj.previous_page_number }}"
+      >前へ</a
+    >
+    {% endif %} {% if page_obj.has_next %}
+    <a
+      href="?keyword={{ request.GET.keyword }}&page={{ page_obj.next_page_number }}"
+      >次へ</a
+    >
+    {% endif %}
   </div>
 </div>

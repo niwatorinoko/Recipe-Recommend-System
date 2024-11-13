@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+<div class="columns is-centered mt-5" style="padding-top: 80px">
+  <div class="column is-half">
+    <article class="message is-danger">
+      <div class="message-header">
+        <p>削除確認</p>
+      </div>
+      <div class="message-body">
+        <p>以下の投稿を削除してもよろしいですか？</p>
+        <hr />
+        <strong>投稿者:</strong> {{ diary.author }}<br />
+        <strong>作成日:{{ diary.created_at }}</strong><br />
+        <strong>レシピ:</strong><br />
+        <div>{{ diary.recipe.recipe_info|safe }}</div>
+        <hr />
+        <form method="POST">
+          {% csrf_token %}
+          <button class="button is-danger" type="submit">削除</button>
+          <a
+            href="{% url 'recipe:diary_detail' diary.pk %}"
+            class="button is-light"
+            >キャンセル</a
+          >
+        </form>
+      </div>
+    </article>
+  </div>
+</div>
+{% endblock %}
