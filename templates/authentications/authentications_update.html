@@ -1,12 +1,21 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<h2>プロフィール編集</h2>
-<form method="post" novalidate>
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">更新</button>
-  <a
-    href="{% url 'authentications:profile' pk=user.pk %}"
-    class="btn btn-secondary"
-    >キャンセル</a
-  >
-</form>
+<div class="profile-edit-container">
+  <div class="profile-edit-card">
+    <h2 class="is-size-3 has-text-centered has-text-weight-bold">
+      プロフィール編集
+    </h2>
+    <hr />
+    <form method="post" novalidate>
+      {% csrf_token %} {{ form.as_p }}
+      <div class="buttons">
+        <button type="submit" class="button is-primary">更新</button>
+        <a
+          href="{% url 'authentications:profile' pk=user.pk %}"
+          class="button is-info"
+          >キャンセル</a
+        >
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

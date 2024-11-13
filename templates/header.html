@@ -1,34 +1,23 @@
-<nav class="navbar is-warning mb-6 p-2">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="">
-            <strong style="font-size: xx-large;">食譜推薦系統</strong>
-        </a>
-    </div>
-    <div class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="">
-                レシピ一覧
-            </a>
-            <a class="navbar-item" href="{% url 'recipe:create' %}">
-                レシピ作成
-            </a>
-        </div>
-  
-    <div class="navbar-end">
-        <div class="navbar-item">
-            <div class="buttons">
-                {% if request.user.is_authenticated %}
-                <p class="mr-6">{{ request.user }}さん、ようこそ</p>
-                    <a class="button is-text" href="{% url 'authentications:logout' %}">ログアウト</a>
-                    {% else %}
-                    <a class="button is-dark" href="{% url 'authentications:signup' %}">
-                        <strong>新規登録</strong>
-                    </a>
-                    <a class="button is-light" href="{% url 'authentications:login' %}">
-                        ログイン
-                    </a>
-                    {% endif %}
-                </div>
-        </div>
-    </div>
-</nav>
+{% load static %}
+<header>
+  <h1 id="logo">
+    <a href="{% url 'recipe:list' %}"
+      ><img src="{% static 'images/logo.png' %}" alt="食譜推薦系統"
+    /></a>
+  </h1>
+  <ul>
+    {% if request.user.is_authenticated %}
+    <li>
+      <a href="{% url 'authentications:profile' user.pk %}"
+        >{{ request.user }}さん、ようこそ</a
+      >
+    </li>
+    <li><a href="{% url 'authentications:logout' %}">ログアウト</a></li>
+    {% else %}
+    <li>
+      <a href="{% url 'authentications:signup' %}"><strong>新規登録</strong></a>
+    </li>
+    <li><a href="{% url 'authentications:login' %}">ログイン</a></li>
+    {% endif %}
+  </ul>
+</header>

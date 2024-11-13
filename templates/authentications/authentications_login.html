@@ -1,14 +1,14 @@
-{% extends 'base.html' %} {% block content %}
-
-<div class="columns is-centered">
-  <div class="column is-half has-background-link-light">
-    <h1 class="is-size-1">ログイン</h1>
+{% extends 'base.html' %}
+{% block content %}
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="is-size-3 has-text-centered has-text-weight-bold">ログイン</h1>
     <hr />
     <form method="POST">
-      {% csrf_token %} {{ form.as_p }}
-      <button class="button is-primary">ログイン</button>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="button is-primary is-fullwidth">ログイン</button>
     </form>
   </div>
 </div>
-
 {% endblock content %}

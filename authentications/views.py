@@ -9,8 +9,6 @@ from recipe.models import Diary
 
 User = get_user_model()
 
-class IndexView(generic.TemplateView):
-    template_name = 'authentications/index.html'
 
 class UnauthenticatedOnly(UserPassesTestMixin):
     """
@@ -22,7 +20,7 @@ class UnauthenticatedOnly(UserPassesTestMixin):
     
     def handle_no_permission(self):
         # ログイン状態なら投稿一覧へリダイレクト
-        return redirect('authentications:index')
+        return redirect('recipe:list')
     
 class AuthenticationsSignupView(UnauthenticatedOnly, FormView):
     """ 
@@ -73,7 +71,7 @@ class AuthenticationsLoginView(UnauthenticatedOnly ,FormView):
         user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('authentications:index')
+            return redirect('authentications:login')
         return redirect('authentications:login')
 
 class AuthenticationsLogoutView(View):
@@ -96,7 +94,7 @@ class UserProfileView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # 現在のユーザー（プロフィール）の日記を取得
-        user_diary = Diary.objects.filter(author=self.object).order_by('-created_at')
+        user_diary = Diary.objects.filter(author=self.object).select_related('recipe').order_by('-created_at')
         context['user_diary'] = user_diary
         return context
 

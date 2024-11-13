@@ -1,17 +1,17 @@
 {% extends 'base.html' %} {% block content %}
-
-<div class="columns is-centered">
-  <div class="column is-half has-background-link-light">
-    <h1 class="is-size-1">新規登録</h1>
+<div class="signup-container">
+  <div class="signup-card">
+    <h1 class="is-size-3 has-text-centered has-text-weight-bold">新規登録</h1>
     <hr />
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %} {{ form.as_p }}
-      <a class="button is-info mr-3" href="{{ request.META.HTTP_REFERER }}"
-        >戻る</a
-      >
-      <button class="button is-primary">登録</button>
+      <div class="buttons">
+        <a class="button is-info" href="{{ request.META.HTTP_REFERER }}"
+          >戻る</a
+        >
+        <button class="button is-primary">登録</button>
+      </div>
     </form>
   </div>
 </div>
-
 {% endblock content %}

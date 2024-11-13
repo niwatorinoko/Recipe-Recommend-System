@@ -1,25 +1,45 @@
 {% extends 'base.html' %} {% block content %}
-<h2>{{ user.username }}'s Profile</h2>
+<div class="profile-container">
+  <h2 class="is-size-3 has-text-centered">{{ user.username }}'s Profile</h2>
+  <div class="mt-5 has-text-centered">
+    <a href="{% url 'authentications:profile_edit' %}" class="button is-info"
+      >Edit profile</a
+    >
+  </div>
+  {% if user_diary %}
+  <h3 class="is-size-4 has-text-centered mt-5">Saved Diaries</h3>
+  <div class="diary-list">
+    {% for diary in user_diary %}
+    <div class="diary-card">
+      {% if diary.recipe %}
+      <h4>{{ diary.recipe.recipe_info|striptags|slice:":50" }}...</h4>
 
-{% if user_diary %}
-<h3>Saved Diaries</h3>
-<ul>
-  {% for diary in user_diary %}
-  <li>
-    <h4>{{ diary.recipe_info|safe }}</h4>
-    <p>Weather: {{ diary.weather }}</p>
-    <p>Mood: {{ diary.mood }}</p>
-    <p>Budget: {{ diary.budget }} NTD</p>
-    <p>Serving Size: {{ diary.num_people }} people</p>
-    <p>Rating: {{ diary.rating }}/5</p>
-    <p>{{ diary.comments }}</p>
-    <a href="{% url 'recipe:diary_detail' pk=diary.pk %}">View Details</a>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No diaries found for this user.</p>
-{% endif %}
+      <p><strong>Weather:</strong> {{ diary.recipe.weather }}</p>
+      <p><strong>Mood:</strong> {{ diary.recipe.mood }}</p>
+      <p><strong>Budget:</strong> {{ diary.recipe.budget }} NTD</p>
+      <p><strong>Serving Size:</strong> {{ diary.recipe.num_people }} people</p>
+      {% endif %}
+      <p><strong>Rating:</strong> {{ diary.rating }}/5</p>
+      <p><strong>Comments:</strong> {{ diary.comments }}</p>
+      <p>
+        <strong>Created At:</strong> {{ diary.created_at|date:"Y-m-d H:i" }}
+      </p>
+      <a
+        href="{% url 'recipe:diary_detail' pk=diary.pk %}"
+        class="button is-link is-small mt-3"
+        >View Details</a
+      >
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="has-text-centered">No diaries found for this user.</p>
+  {% endif %}
 
-<a href="{% url 'recipe:list' %}">Back to Recipe List</a>
+  <div class="mt-5 has-text-centered">
+    <a href="{% url 'recipe:list' %}" class="button is-info"
+      >Back to Recipe List</a
+    >
+  </div>
+</div>
 {% endblock %}
