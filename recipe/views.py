@@ -38,46 +38,6 @@ class RecipesListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-# input : user_ingredients, weather, mood, budget, num_people
-# output : title, recipe_ingredients, instructions, nutrition_info, preparation_time, budget, num_people    
-class RecipeSearchView(APIView):
-    def get(self, request):
-        return render(request, 'recipe/recipe_search.html')
-
-    def post(self, request):
-        # フォームからのユーザー入力を取得
-        user_ingredients = request.POST.get('user_ingredients')
-        weather = request.POST.get('weather')
-        mood = request.POST.get('mood')
-        budget = request.POST.get('budget')
-        num_people = request.POST.get('num_people')
-
-        # Google Generative AIの設定
-        genai.configure(api_key=GOOGLE_API_KEY)
-        model = genai.GenerativeModel("gemini-1.5-flash")
-
-        # プロンプト作成
-        prompt = f"""
-        I want to make One recipe with {user_ingredients} that is {mood}, suitable for a {weather} day,
-        serves {num_people} people, and costs {budget} NTD.
-        """
-
-        response = model.generate_content(prompt)
-        recipe_info = markdown.markdown(response.text)
-
-        # 結果をテンプレートに渡す
-        context = {
-            'recipe_info': recipe_info,
-            'user_ingredients': user_ingredients,
-            'weather': weather,
-            'mood': mood,
-            'budget': budget,
-            'num_people': num_people,
-            'recipe_info': recipe_info,
-        }
-        return render(request, 'recipe/recipe_search.html', context)
-    
-
 class RecipesCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     template_name = 'recipe/recipes_create.html'
