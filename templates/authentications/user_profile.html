@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block content %}
+<h2>{{ user.username }}'s Profile</h2>
+
+{% if user_diary %}
+<h3>Saved Diaries</h3>
+<ul>
+  {% for diary in user_diary %}
+  <li>
+    <h4>{{ diary.recipe_info|safe }}</h4>
+    <p>Weather: {{ diary.weather }}</p>
+    <p>Mood: {{ diary.mood }}</p>
+    <p>Budget: {{ diary.budget }} NTD</p>
+    <p>Serving Size: {{ diary.num_people }} people</p>
+    <p>Rating: {{ diary.rating }}/5</p>
+    <p>{{ diary.comments }}</p>
+    <a href="{% url 'recipe:diary_detail' pk=diary.pk %}">View Details</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No diaries found for this user.</p>
+{% endif %}
+
+<a href="{% url 'recipe:list' %}">Back to Recipe List</a>
+{% endblock %}

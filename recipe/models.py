@@ -28,9 +28,6 @@ class Recipe(Common):
     # response
     recipe_info = models.TextField(verbose_name='Recipe Info', blank=True, null=True)
 
-    def __str__(self):
-        return self.user_ingredients
-
     def get_absolute_url(self):
         return reverse('recipes:detail', kwargs={'pk': self.pk})
 

@@ -1,10 +1,11 @@
 from django.views import generic
 from django.shortcuts import render, redirect
-from django.views.generic import FormView, View, DetailView, TemplateView
+from django.views.generic import FormView, View, DetailView, TemplateView, UpdateView
 from django.contrib.auth import authenticate, login, logout,get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-
-from .forms import UserCreationForm, UserLoginForm
+from django.urls import reverse_lazy, reverse
+from .forms import UserCreationForm, UserLoginForm, UserUpdateForm
+from recipe.models import Diary
 
 User = get_user_model()
 
@@ -83,16 +84,36 @@ class AuthenticationsLogoutView(View):
         logout(request)
         return redirect('authentications:login')
 
+
 class UserProfileView(DetailView):
     """
-    特定のユーザーの投稿一覧を取得しHTMLを返す
+    特定のユーザーの投稿一覧（日記）を取得してHTMLを返すビュー
     """
     model = User
     template_name = 'authentications/user_profile.html'
+    context_object_name = 'user'
 
-    def get(self, request, pk):
-        user = User.objects.get(id=pk)
-        context = {
-            'user': user,
-        }
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 現在のユーザー（プロフィール）の日記を取得
+        user_diary = Diary.objects.filter(author=self.object).order_by('-created_at')
+        context['user_diary'] = user_diary
+        return context
+
+
+class AuthenticationsUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    ユーザーのプロフィール情報を更新するためのビュー
+    """
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'authentications/authentications_update.html'
+
+    def get_object(self, queryset=None):
+        """ログイン中のユーザーのみが自分の情報を編集可能"""
+        return self.request.user
+
+    def form_valid(self, form):
+        """フォームが有効な場合、保存してリダイレクト"""
+        self.object = form.save()
+        return redirect(reverse('authentications:profile', kwargs={'pk': self.object.pk}))
