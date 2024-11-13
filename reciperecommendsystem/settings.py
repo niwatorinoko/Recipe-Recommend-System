@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,18 +131,6 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL='authentications.User'
-
-
-# SANITY_PROJECT_ID = os.getenv("SANITY_PROJECT_ID", "gv2vw359")
-# SANITY_DATASET = os.getenv("SANITY_DATASET", "production")
-# SANITY_API_TOKEN = os.getenv("SANITY_API_TOKEN", "skgyQBp24zvw9klAaafbN2ZFfVtC5EqLTBes4Clz2dM4j9INLhinLCx6ccIxWDktM4s9FcQHIIa60DdGWBRi5VF003JoLFxa8vf3kDjnSxRGYz3K9vPB1CEAW34WDv1kSRvKjFyndMKt6IKddXl0kf3OWrPhYYEBi2LzUGQmwfMedjdus2jL")
-# SANITY_API_VERSION = "v2023-11-12"  # 使用する API バージョン
-
-
-# GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText"
-# GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-
-import environ
 
 # instanceを作成
 env = environ.Env(
