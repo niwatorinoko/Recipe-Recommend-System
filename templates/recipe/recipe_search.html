@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Search</title>
+  </head>
+  <body>
+    <h1>Recipe Search</h1>
+    <form method="post">
+      {% csrf_token %}
+      <label for="user_ingredients">Ingredients:</label>
+      <input
+        type="text"
+        id="user_ingredients"
+        name="user_ingredients"
+        required
+      /><br />
+
+      <label for="weather">Weather:</label>
+      <input type="text" id="weather" name="weather" required /><br />
+
+      <label for="mood">Mood:</label>
+      <input type="text" id="mood" name="mood" required /><br />
+
+      <label for="budget">Budget (NTD):</label>
+      <input type="number" id="budget" name="budget" required /><br />
+
+      <label for="num_people">Number of People:</label>
+      <input type="number" id="num_people" name="num_people" required /><br />
+
+      <button type="submit">Search Recipe</button>
+    </form>
+    {% if recipe_info %}
+    <h2>Recipe Result</h2>
+    <pre>{{ recipe_info }}</pre>
+    {% else %}
+    <h2>No Recipe Found</h2>
+    {% endif %}
+  </body>
+</html>

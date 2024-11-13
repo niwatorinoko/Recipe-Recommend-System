@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="columns is-centered">
+  <div class="column is-half has-background-link-light">
+    <h1 class="is-size-1">ログイン</h1>
+    <hr />
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button class="button is-primary">ログイン</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
