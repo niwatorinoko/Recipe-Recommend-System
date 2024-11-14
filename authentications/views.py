@@ -1,9 +1,8 @@
-from django.views import generic
 from django.shortcuts import render, redirect
-from django.views.generic import FormView, View, DetailView, TemplateView, UpdateView
+from django.views.generic import FormView, View, DetailView, UpdateView
 from django.contrib.auth import authenticate, login, logout,get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 from .forms import UserCreationForm, UserLoginForm, UserUpdateForm
 from recipe.models import Diary
 

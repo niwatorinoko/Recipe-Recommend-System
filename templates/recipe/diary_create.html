@@ -1,9 +1,21 @@
-<h2>Generated Recipe</h2>
-<p>{{ recipe.recipe_info|safe }}</p>
+{% extends 'base.html' %} {% block content %}
+<div class="recipe-save-container">
+  <div class="recipe-save-card">
+    <h2>Generated Recipe</h2>
+    <div class="recipe-content">
+      <p>{{ recipe.recipe_info|safe }}</p>
+    </div>
 
-<h3>Save this recipe with additional details:</h3>
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Save Recipe</button>
-  <a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
-</form>
+    <h3>Save this recipe with additional details:</h3>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+      <div class="buttons">
+        <button type="submit" class="btn">Save Recipe</button>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn is-light"
+          >Cancel</a
+        >
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

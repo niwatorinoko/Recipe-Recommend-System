@@ -1,6 +1,5 @@
-from django.contrib import admin
-from django.urls import path, include
-from recipe.views import RecipeSearchView, RecipesListView, RecipesCreateView, DiaryCreateView, DiaryDetailView, DiaryDeleteView
+from django.urls import path
+from recipe.views import RecipesListView, RecipesCreateView, DiaryCreateView, DiaryDetailView, DiaryDeleteView
 
 
 app_name = 'recipe'

@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import redirect, reverse
 from reciperecommendsystem.settings import GOOGLE_API_KEY
-from rest_framework.views import APIView
 import google.generativeai as genai
 from .models import Recipe, Diary
 import markdown

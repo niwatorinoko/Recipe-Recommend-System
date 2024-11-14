@@ -1458,3 +1458,201 @@ button {
 button:hover {
   background-color: #d48d00;
 }
+
+/* 新規レシピ作成フォームのスタイル */
+.recipe-create-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.recipe-create-card {
+  background-color: #f7f7f7;
+  padding: 40px;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.recipe-create-card h2 {
+  margin-bottom: 20px;
+  color: #efa900;
+}
+
+form {
+  margin-top: 20px;
+}
+
+form p {
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+input[type="file"] {
+  margin-bottom: 20px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #efa900;
+  outline: none;
+  box-shadow: 0 0 5px rgba(239, 169, 0, 0.5);
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+button.btn {
+  background-color: #efa900;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #d48d00;
+}
+
+/* レシピ保存画面のスタイル */
+.recipe-save-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+.recipe-save-card {
+  background-color: #f7f7f7;
+  padding: 40px;
+  width: 90%;
+  max-width: 800px; /* 横幅を広く設定 */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.recipe-save-card h2 {
+  margin-bottom: 20px;
+  color: #efa900;
+}
+
+.recipe-save-card h3 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.recipe-content {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* レシピ保存画面のスタイル */
+.recipe-save-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+.recipe-save-card {
+  background-color: #f7f7f7;
+  padding: 40px;
+  width: 90%;
+  max-width: 900px; /* 最大幅を900pxに拡大 */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.recipe-save-card h2 {
+  margin-bottom: 20px;
+  color: #efa900;
+}
+
+.recipe-save-card h3 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.recipe-content {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: left; /* 左揃えにして読みやすく */
+}
+
+form {
+  margin-top: 20px;
+}
+
+form p {
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* ボタン間の余白を増やしました */
+}
+
+button.btn {
+  background-color: #efa900;
+  border: none;
+  padding: 12px 24px; /* ボタンのパディングを増加 */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #d48d00;
+}
+
+a.btn.is-light {
+  background-color: #f0f0f0;
+  color: #666;
+  text-decoration: none;
+  padding: 12px 24px; /* ボタンのパディングを増加 */
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+a.btn.is-light:hover {
+  background-color: #ddd;
+}
