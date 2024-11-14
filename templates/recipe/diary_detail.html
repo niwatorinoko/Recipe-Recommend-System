@@ -1,27 +1,42 @@
 {% extends 'base.html' %} {% block content %}
-<h2>Diary Entry Details</h2>
-<div>
-  <h3>Recipe Info</h3>
-  <p>{{ diary.recipe.recipe_info|safe }}</p>
-</div>
-<div>
-  <h3>Ingredients</h3>
-  <p>{{ diary.user_ingredients }}</p>
-  <p>Weather: {{ diary.weather }}</p>
-  <p>Mood: {{ diary.mood }}</p>
-  <p>Budget: {{ diary.budget }} NTD</p>
-  <p>Serving Size: {{ diary.num_people }} people</p>
-</div>
-<div>
-  <h3>Comments</h3>
-  <p>Rating: {{ diary.rating }}/5</p>
-  <p>{{ diary.comments }}</p>
-</div>
-<a href="{% url 'recipe:list' %}">Back to Recipe List</a>
+<div class="diary-details-container">
+  <h2>Diary Entry Details</h2>
 
-<!-- 削除ボタン（投稿者のみが表示可能） -->
-{% if request.user == diary.author %}
-<a class="button is-danger" href="{% url 'recipe:delete_diary' diary.id %}"
-  >Delete</a
->
-{% endif %}{% endblock %}
+  <!-- レシピ情報セクション -->
+  <div class="diary-section">
+    <h3>Recipe Info</h3>
+    <p>{{ diary.recipe.recipe_info|safe }}</p>
+  </div>
+
+  <!-- 材料情報セクション -->
+  <div class="diary-section">
+    <h3>Ingredients</h3>
+    <p>{{ diary.recipe.user_ingredients }}</p>
+    <p>Weather: {{ diary.recipe.weather }}</p>
+    <p>Mood: {{ diary.recipe.mood }}</p>
+    <p>Budget: {{ diary.recipe.budget }} NTD</p>
+    <p>Serving Size: {{ diary.recipe.num_people }} people</p>
+  </div>
+
+  <!-- コメントセクション -->
+  <div class="diary-section">
+    <h3>Comments</h3>
+    <p><strong>Rating:</strong> {{ diary.rating }}/5</p>
+    <p>{{ diary.comments }}</p>
+  </div>
+
+  <!-- ボタン -->
+  <div class="buttons">
+    <a href="{% url 'recipe:list' %}" class="btn is-light"
+      >Back to Recipe List</a
+    >
+
+    <!-- 削除ボタン（投稿者のみが表示可能） -->
+    {% if request.user == diary.author %}
+    <a class="btn is-danger" href="{% url 'recipe:delete_diary' diary.id %}"
+      >Delete</a
+    >
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

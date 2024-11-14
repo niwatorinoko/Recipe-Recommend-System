@@ -1656,3 +1656,76 @@ a.btn.is-light {
 a.btn.is-light:hover {
   background-color: #ddd;
 }
+
+/* 日記詳細ページのスタイル */
+.diary-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  padding: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+.diary-details-container h2 {
+  color: #efa900;
+  margin-bottom: 20px;
+}
+
+.diary-section {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.diary-section h3 {
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.diary-section p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn.is-light {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.btn.is-light:hover {
+  background-color: #ddd;
+}
+
+.btn.is-danger {
+  background-color: #ff4343;
+}
+
+.btn.is-danger:hover {
+  background-color: #e63939;
+}
