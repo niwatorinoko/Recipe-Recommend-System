@@ -1,7 +1,7 @@
 {% load static %}
 <header>
   <h1 id="logo">
-    <a href="{% url 'recipe:list' %}"
+    <a href="{% url 'authentications:index' %}"
       ><img src="{% static 'images/logo.png' %}" alt="食譜推薦系統"
     /></a>
   </h1>
@@ -9,15 +9,15 @@
     {% if request.user.is_authenticated %}
     <li>
       <a href="{% url 'authentications:profile' user.pk %}"
-        >{{ request.user }}さん、ようこそ</a
+        >Welcome, {{ request.user }}!</a
       >
     </li>
-    <li><a href="{% url 'authentications:logout' %}">ログアウト</a></li>
+    <li><a href="{% url 'authentications:logout' %}">Logout</a></li>
     {% else %}
     <li>
-      <a href="{% url 'authentications:signup' %}"><strong>新規登録</strong></a>
+      <a href="{% url 'authentications:signup' %}"><strong>Sign up</strong></a>
     </li>
-    <li><a href="{% url 'authentications:login' %}">ログイン</a></li>
+    <li><a href="{% url 'authentications:login' %}">Login</a></li>
     {% endif %}
   </ul>
 </header>

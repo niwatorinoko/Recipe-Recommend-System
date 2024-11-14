@@ -1,0 +1,116 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!--スライドショー（slick）-->
+<aside id="mainimg">
+  <div class="mainimg">
+    <div><img src="{% static 'images/1.jpg' %}" alt="" /></div>
+    <div><img src="{% static 'images/2.jpg' %}" alt="" /></div>
+    <div><img src="{% static 'images/3.jpg' %}" alt="" /></div>
+  </div>
+  <img src="{% static 'images/kazari.png' %}" alt="" class="kazari" />
+</aside>
+
+<div id="container">
+  <main>
+    <section>
+      <h2>
+        Recently generated recipes<span>New recipes</span>
+        <a href="{% url 'recipe:list' %}">>>> View all recipe</a>
+      </h2>
+      <div class="list-container">
+        {% for recipe in latest_recipes %}
+        <div class="list">
+          <figure>
+            <img
+              src="{% static 'images/sample/sample1.jpg' %}"
+              alt="レシピ画像"
+            />
+          </figure>
+          <div class="text">
+            <h4>
+              <a href="{{ recipe.weather }}"
+                >{{ recipe.recipe_info|striptags|slice:":65" }}...</a
+              >
+            </h4>
+            <p class="name">
+              <a href="user.html">{{ recipe.author }}</a>
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section></section>
+
+    <section>
+      <h2>About us<span>食譜推薦系統</span></h2>
+
+      <h3>Our Purpose</h3>
+      <p>
+        In daily life, deciding “what to cook today? often requires
+        consideration of ingredients, budget, number of diners, cooking time and
+        other factors, which is not only time-consuming and laborious, but also
+        increases the pressure of decision-making. Existing recipe
+        recommendation apps only provide suggestions based on ingredients, which
+        cannot satisfy more comprehensive needs. However, research has shown
+        that external factors such as mood and weather can also affect dietary
+        choices, and taking these details into account can provide suggestions
+        that are more appropriate to the needs of the moment. <br /><br />
+        Therefore, we plan to develop a smart recipe recommendation system that
+        takes into account ingredients, budget, mood, weather, etc. to minimize
+        the pressure of decision-making. In the future, we can also review past
+        recipes for diet analysis and health management.
+      </p>
+      <h3>Story</h3>
+      <p>
+        One day during a typhoon holiday, all the restaurants in my neighborhood
+        were closed, and the delivery shipping cost was high. There were no
+        convenience stores nearby and I didn't want to go out, so I decided to
+        make a meal with ingredients I had at home.<br /><br />
+        In the refrigerator, I found potatoes, carrots, groundnuts, onions,
+        shiitake mushrooms, cabbage, and pork. I also found rice and curry
+        sauce. I found the ingredients, but I didn't know what to make with
+        them. <br /><br />
+        So I told the recipe recommendation system the weather, my mood,
+        ingredients and budget, and asked it to help me come up with a recipe.
+        The system suggested curry, so I decided to make curry.<br /><br />
+        The recipe isautomatically saved as a diary so I can review today's
+        recipe in the future, so I can review the recipe again in a few days.
+      </p>
+    </section>
+  </main>
+
+  <!--開閉ブロック-->
+  <div id="menubar">
+    <h3>User Management</h3>
+    <ul class="submenu">
+      <li>
+        <a href="{% url 'authentications:profile_edit' %}"
+          >Change of registration information</a
+        >
+      </li>
+      {% if request.user.is_authenticated %}
+      <li>
+        <a href="{% url 'authentications:profile' user.pk %}"
+          >View my past diaries</a
+        >
+      </li>
+      <li>
+        <a href="{% url 'authentications:logout' %}">Logout</a>
+        {% else %}
+      </li>
+      <li>
+        <a href="{% url 'authentications:login' %}"><strong>Login</strong></a>
+      </li>
+      {% endif %}
+    </ul>
+
+    <h3><a href="{% url 'recipe:list' %}">Recipe List</a></h3>
+
+    <h3><a href="{% url 'recipe:create' %}">Create Recipe & Diary</a></h3>
+  </div>
+  <!--/#menubar-->
+</div>
+<!--/#container-->
+
+{% endblock content %}

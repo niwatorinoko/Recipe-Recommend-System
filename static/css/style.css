@@ -1729,3 +1729,68 @@ a.btn.is-light:hover {
 .btn.is-danger:hover {
   background-color: #e63939;
 }
+
+/* 削除確認ページのスタイル */
+.delete-confirm-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding-top: 80px;
+}
+
+.delete-confirm-card {
+  width: 90%;
+  max-width: 700px;
+}
+
+.message {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-header {
+  background-color: #ff4343; /* 削除確認メッセージの背景色 */
+  color: white;
+}
+
+.message-body {
+  padding: 20px;
+}
+
+.diary-info {
+  margin-bottom: 20px;
+}
+
+.recipe-info {
+  margin-top: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button.button {
+  padding: 12px 24px;
+  border-radius: 5px;
+}
+
+button.is-danger {
+  background-color: #ff4343;
+}
+
+button.is-danger:hover {
+  background-color: #e63939;
+}
+
+a.button.is-light {
+  background-color: #f0f0f0;
+  color: #666;
+  text-decoration: none;
+}
+
+a.button.is-light:hover {
+  background-color: #ddd;
+}

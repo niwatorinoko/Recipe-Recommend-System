@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.views.generic import FormView, View, DetailView, UpdateView
+from django.views.generic import FormView, View, DetailView, UpdateView, TemplateView
 from django.contrib.auth import authenticate, login, logout,get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.urls import reverse
 from .forms import UserCreationForm, UserLoginForm, UserUpdateForm
-from recipe.models import Diary
+from recipe.models import Diary, Recipe
+from django.views.generic import TemplateView
 
 User = get_user_model()
 
@@ -114,3 +115,16 @@ class AuthenticationsUpdateView(LoginRequiredMixin, UpdateView):
         """フォームが有効な場合、保存してリダイレクト"""
         self.object = form.save()
         return redirect(reverse('authentications:profile', kwargs={'pk': self.object.pk}))
+    
+
+class IndexView(TemplateView):
+    """
+    トップページを表示するビュー
+    """
+    template_name = 'authentications/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 最新の 4 つのレシピを取得
+        context['latest_recipes'] = Recipe.objects.order_by('-created_at')[:4]
+        return context

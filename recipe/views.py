@@ -60,8 +60,8 @@ class RecipesCreateView(LoginRequiredMixin, CreateView):
         prompt = f"""
         Please suggest a creative, original recipe using the ingredients: {user_ingredients}. 
         The recipe should be {mood}, suitable for a {weather} day, serve {num_people} people, 
-        and stay within a budget of {budget} NTD. Please think  title, recipe_ingredients, instructions, nutrition_info, preparation_time, budget.
-        Avoid using copyrighted text.
+        and stay within a budget of {budget} NTD. Please think title, recipe_ingredients, instructions, nutrition_info, preparation_time, budget.
+        Avoid using copyrighted text. Please write in zh-tw.
         """
 
         # AIからレシピ情報を生成

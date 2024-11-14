@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AuthenticationsSignupView, AuthenticationsLoginView, AuthenticationsLogoutView, UserProfileView, AuthenticationsUpdateView
+from .views import AuthenticationsSignupView, AuthenticationsLoginView, AuthenticationsLogoutView, UserProfileView, AuthenticationsUpdateView, IndexView
 
 app_name = 'authentications'
 
@@ -9,5 +9,6 @@ urlpatterns = [
     path('logout/', AuthenticationsLogoutView.as_view(), name='logout'),
     path('profile/<int:pk>/', UserProfileView.as_view(), name='profile'),
     path('profile/edit/', AuthenticationsUpdateView.as_view(), name='profile_edit'),
+    path('', IndexView.as_view(), name='index'),
 ]
 #http://0.0.0.0:8000/accounts/
