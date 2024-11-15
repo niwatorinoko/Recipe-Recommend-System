@@ -5,17 +5,17 @@
       <!-- 検索フォーム -->
       <form
         method="get"
-        action="{% url 'authentications:profile_edit' %}"
+        action="{% url 'recipe:list' %}"
         class="search-form menu"
       >
         <input
           type="text"
           name="keyword"
-          placeholder="レシピを検索"
+          placeholder="Search Recipes"
           value="{{ request.GET.keyword }}"
           class="input-text"
         />
-        <button type="submit" class="btn">検索</button>
+        <button type="submit" class="btn">Search</button>
       </form>
 
       <!-- レシピリスト -->
@@ -29,9 +29,7 @@
           <div class="card-content">
             <h4>{{ recipe.title }}</h4>
             <p>{{ recipe.recipe_info|safe }}</p>
-            <p class="created-at">
-              作成日: {{ recipe.created_at|date:"Y年m月d日" }}
-            </p>
+            <p class="created-at">Created at: {{ recipe.created_at }}</p>
           </div>
         </div>
         {% endfor %}
@@ -42,22 +40,19 @@
 
       <!-- ページネーション -->
       <div class="pagination">
-        <span
-          >ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages
-          }}</span
-        >
+        <span> {{ page_obj.number }} / {{ page_obj.paginator.num_pages}}</span>
         <div class="pagination-links">
           {% if page_obj.has_previous %}
           <a
             href="?keyword={{ request.GET.keyword }}&page={{ page_obj.previous_page_number }}"
             class="button is-light"
-            >前へ</a
+            >Back</a
           >
           {% endif %} {% if page_obj.has_next %}
           <a
             href="?keyword={{ request.GET.keyword }}&page={{ page_obj.next_page_number }}"
             class="button is-dark"
-            >次へ</a
+            >Next</a
           >
           {% endif %}
         </div>

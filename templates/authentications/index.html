@@ -11,10 +11,22 @@
 
 <div id="container">
   <main>
+    <a href="{% url 'recipe:create' %}">
+      <video
+        loop
+        muted
+        autoplay
+        playsinline
+        style="width: 100%; cursor: pointer"
+      >
+        <source src="{% static 'images/create.mp4' %}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </a>
     <section>
       <h2>
-        Recently generated recipes<span>New recipes</span>
-        <a href="{% url 'recipe:list' %}">>>> View all recipe</a>
+        <a href="{% url 'recipe:list' %}">>>> View all recipe</a
+        ><span>↓Recently Generated↓</span>
       </h2>
       <div class="list-container">
         {% for recipe in latest_recipes %}
@@ -26,21 +38,15 @@
             />
           </figure>
           <div class="text">
-            <h4>
-              <a href="{{ recipe.weather }}"
-                >{{ recipe.recipe_info|striptags|slice:":65" }}...</a
-              >
-            </h4>
-            <p class="name">
-              <a href="user.html">{{ recipe.author }}</a>
-            </p>
+            <h4>{{ recipe.recipe_info|striptags|slice:":65" }}...</h4>
+            <p class="name">{{ recipe.author }}</p>
           </div>
         </div>
         {% endfor %}
       </div>
     </section>
 
-    <section></section>
+    <hr />
 
     <section>
       <h2>About us<span>食譜推薦系統</span></h2>
@@ -85,15 +91,11 @@
     <h3>User Management</h3>
     <ul class="submenu">
       <li>
-        <a href="{% url 'authentications:profile_edit' %}"
-          >Change of registration information</a
-        >
+        <a href="{% url 'authentications:edit' %}">Edit profile</a>
       </li>
       {% if request.user.is_authenticated %}
       <li>
-        <a href="{% url 'authentications:profile' user.pk %}"
-          >View my past diaries</a
-        >
+        <a href="{% url 'authentications:profile' user.pk %}">View My Diary</a>
       </li>
       <li>
         <a href="{% url 'authentications:logout' %}">Logout</a>
@@ -105,7 +107,7 @@
       {% endif %}
     </ul>
 
-    <h3><a href="{% url 'recipe:list' %}">Recipe List</a></h3>
+    <h3><a href="{% url 'recipe:list' %}">View All Recipe</a></h3>
 
     <h3><a href="{% url 'recipe:create' %}">Create Recipe & Diary</a></h3>
   </div>

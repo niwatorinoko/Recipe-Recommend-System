@@ -20,7 +20,7 @@ class UnauthenticatedOnly(UserPassesTestMixin):
     
     def handle_no_permission(self):
         # ログイン状態なら投稿一覧へリダイレクト
-        return redirect('recipe:list')
+        return redirect('authentications:index')
     
 class AuthenticationsSignupView(UnauthenticatedOnly, FormView):
     """ 
@@ -33,7 +33,7 @@ class AuthenticationsSignupView(UnauthenticatedOnly, FormView):
         """ 
         Postリクエスト時の処理
         Userモデルのフォームを検証し、データを保存する
-        検証成功すれば投稿一覧ページにリダイレクトし、自動でログインした状態にする
+        検証成功すればindexにリダイレクトし、自動でログインした状態にする
         検証失敗すれば登録ページを返す
         """
         user_form = UserCreationForm(request.POST)

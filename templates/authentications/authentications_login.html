@@ -1,13 +1,11 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="login-container">
   <div class="login-card">
-    <h1 class="is-size-3 has-text-centered has-text-weight-bold">ログイン</h1>
+    <h1 class="is-size-3 has-text-centered has-text-weight-bold">Login</h1>
     <hr />
     <form method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button class="button is-primary is-fullwidth">ログイン</button>
+      {% csrf_token %} {{ form.as_p }}
+      <button class="button is-primary is-fullwidth">Login</button>
     </form>
   </div>
 </div>

@@ -2,17 +2,17 @@
 <div class="profile-edit-container">
   <div class="profile-edit-card">
     <h2 class="is-size-3 has-text-centered has-text-weight-bold">
-      プロフィール編集
+      Edit Profile
     </h2>
     <hr />
     <form method="post" novalidate>
       {% csrf_token %} {{ form.as_p }}
       <div class="buttons">
-        <button type="submit" class="button is-primary">更新</button>
+        <button type="submit" class="button is-primary">Update</button>
         <a
           href="{% url 'authentications:profile' pk=user.pk %}"
           class="button is-info"
-          >キャンセル</a
+          >Cancel</a
         >
       </div>
     </form>

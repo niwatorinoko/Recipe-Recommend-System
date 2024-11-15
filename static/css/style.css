@@ -1060,28 +1060,41 @@ input[type="reset"].btn {
 .search-form {
   display: flex;
   justify-content: center;
+  align-items: center; /* 垂直方向に中央揃え */
   margin-bottom: 20px;
 }
 
 .input-text {
-  padding: 10px;
+  padding: 0 10px;
   width: 60%;
   margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  height: 42px;
+  box-sizing: border-box;
 }
 
 .btn {
-  padding: 10px 20px;
+  height: 42px; /* テキストボックスと同じ高さ */
+  padding: 0 100px; /* 横のパディングを増やしてボタンを広く */
   background-color: #efa900;
   color: white;
   border: none;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box;
 }
 
 .btn:hover {
   background-color: #d48d00;
+}
+
+/* body.c1 クラスの影響をリセット */
+body.c1 .search-form * {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
 }
 
 /* レシピカードリスト */

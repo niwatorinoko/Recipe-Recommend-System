@@ -1,13 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 <div class="profile-container">
-  <h2 class="is-size-3 has-text-centered">{{ user.username }}'s Profile</h2>
+  <h2 class="is-size-3 has-text-centered">{{ user.username }}'s Diaries</h2>
   <div class="mt-5 has-text-centered">
-    <a href="{% url 'authentications:profile_edit' %}" class="button is-info"
+    <a href="{% url 'authentications:edit' %}" class="button is-info"
       >Edit profile</a
     >
   </div>
   {% if user_diary %}
-  <h3 class="is-size-4 has-text-centered mt-5">Saved Diaries</h3>
+  <h3 class="is-size-4 has-text-centered mt-5"></h3>
   <div class="diary-list">
     {% for diary in user_diary %}
     <div class="diary-card">
@@ -21,14 +21,16 @@
       {% endif %}
       <p><strong>Rating:</strong> {{ diary.rating }}/5</p>
       <p><strong>Comments:</strong> {{ diary.comments }}</p>
-      <p>
-        <strong>Created At:</strong> {{ diary.created_at|date:"Y-m-d H:i" }}
-      </p>
-      <a
-        href="{% url 'recipe:diary_detail' pk=diary.pk %}"
-        class="button is-link is-small mt-3"
-        >View Details</a
+      <p><strong>Created At:</strong> {{ diary.created_at }}</p>
+      <form
+        method="get"
+        action="{% url 'recipe:diary_detail' pk=diary.pk %}"
+        style="display: inline"
       >
+        <button type="submit" class="btn is-link is-small mt-3">
+          View Details
+        </button>
+      </form>
     </div>
     {% endfor %}
   </div>

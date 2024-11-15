@@ -24,7 +24,7 @@ class Recipe(Common):
     weather = models.CharField(max_length=50, verbose_name='Weather', blank=True)
     mood = models.CharField(max_length=50, verbose_name='Mood', blank=True)
     budget = models.IntegerField(verbose_name='Budget (NTD)', null=True, blank=True)
-    num_people = models.IntegerField(verbose_name='Serving Size', null=True, blank=True)
+    num_people = models.IntegerField(verbose_name='People Count', null=True, blank=True)
     # response
     recipe_info = models.TextField(verbose_name='Recipe Info', blank=True, null=True)
 

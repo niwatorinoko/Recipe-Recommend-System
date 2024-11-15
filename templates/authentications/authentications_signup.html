@@ -1,15 +1,15 @@
 {% extends 'base.html' %} {% block content %}
 <div class="signup-container">
   <div class="signup-card">
-    <h1 class="is-size-3 has-text-centered has-text-weight-bold">新規登録</h1>
+    <h1 class="is-size-3 has-text-centered has-text-weight-bold">Sign Up</h1>
     <hr />
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %} {{ form.as_p }}
       <div class="buttons">
         <a class="button is-info" href="{{ request.META.HTTP_REFERER }}"
-          >戻る</a
+          >Back</a
         >
-        <button class="button is-primary">登録</button>
+        <button class="button is-primary">Sign up</button>
       </div>
     </form>
   </div>

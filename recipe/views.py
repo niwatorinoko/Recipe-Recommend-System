@@ -1,12 +1,11 @@
-from django.shortcuts import redirect, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, CreateView, DetailView, DeleteView
+from django.shortcuts import get_object_or_404, redirect, reverse
+from django.urls import reverse_lazy
 from reciperecommendsystem.settings import GOOGLE_API_KEY
 import google.generativeai as genai
-from .models import Recipe, Diary
 import markdown
-from django.views.generic import ListView, CreateView, DetailView, DeleteView
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
+from .models import Recipe, Diary
 
 class AuthorOnly(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
