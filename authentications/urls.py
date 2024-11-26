@@ -11,4 +11,3 @@ urlpatterns = [
     path('profile/<int:pk>/', UserProfileView.as_view(), name='profile'),
     path('profile/edit/', AuthenticationsUpdateView.as_view(), name='edit'),
 ]
-#http://0.0.0.0:8000/accounts/

@@ -143,3 +143,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # .envのSECRET_KEYをSECRET_KEYに代入
 GOOGLE_API_KEY = env('GOOGLE_API_KEY')
+
+
+# settings.py
+LOGIN_URL = '/login/'  # または '/authentications/login/'
+LOGIN_REDIRECT_URL = '/'  # ログイン後のリダイレクト先
+LOGOUT_REDIRECT_URL = '/login/'  # ログアウト後のリダイレクト先
