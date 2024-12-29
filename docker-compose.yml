@@ -20,3 +20,4 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+    network_mode: "bridge"

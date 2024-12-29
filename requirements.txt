@@ -6,3 +6,4 @@ google-generativeai
 ipython
 django-environ
 markdown
+dj-database-url
