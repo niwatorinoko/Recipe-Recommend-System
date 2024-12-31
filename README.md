@@ -31,6 +31,7 @@
 - Django
 - Docker
 - Gemini API
+- PostgreSQL（supabase）  
 
 ## 機能
 ### ユーザー
