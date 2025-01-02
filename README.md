@@ -5,7 +5,7 @@
 - Django  
 - Docker  
 - Gemini API  
-- PostgreSQL（supabase）  
+- PostgreSQL
 
 ## 功能  
 ### 用戶  
@@ -31,7 +31,7 @@
 - Django
 - Docker
 - Gemini API
-- PostgreSQL（supabase）  
+- PostgreSQL
 
 ## 機能
 ### ユーザー
