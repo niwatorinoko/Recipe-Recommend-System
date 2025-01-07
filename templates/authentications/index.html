@@ -24,10 +24,10 @@
         {% for recipe in latest_recipes %}
         <div class="list">
           <figure>
-            <img
-              src="{% static 'images/sample/sample1.jpg' %}"
-              alt="レシピ画像"
-            />
+              <img
+                src="{% if recipe.recipe_image %}{{ recipe.recipe_image.url }}{% else %}{% static 'images/sample/sample1.png' %}{% endif %}"
+                alt="{{ recipe.title }}"
+              />
           </figure>
           <div class="text">
             <h4>{{ recipe.recipe_info|striptags|slice:":65" }}...</h4>

@@ -2,9 +2,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, DetailView, DeleteView
 from django.shortcuts import get_object_or_404, redirect, reverse
 from django.urls import reverse_lazy
-from reciperecommendsystem.settings import GOOGLE_API_KEY
+from reciperecommendsystem.settings import RECIPE_TEXT_API_KEY, RECIPE_IMAGE_API_KEY
 import google.generativeai as genai
 import markdown
+import replicate
+import requests
+from django.core.files.base import ContentFile
 from .models import Recipe, Diary
 
 class AuthorOnly(LoginRequiredMixin, UserPassesTestMixin):
@@ -52,10 +55,10 @@ class RecipesCreateView(LoginRequiredMixin, CreateView):
         num_people = form.cleaned_data['num_people']
 
         # Google Generative AIの設定
-        genai.configure(api_key=GOOGLE_API_KEY)
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        
-        # プロンプト作成
+        genai.configure(api_key=RECIPE_TEXT_API_KEY)
+        gemini_model = genai.GenerativeModel("gemini-1.5-flash")
+
+        # レシピ生成プロンプト作成
         prompt = f"""
         Please suggest a creative, original recipe using the ingredients: {user_ingredients}. 
         The recipe should be {mood}, suitable for a {weather} day, serve {num_people} people, 
@@ -64,16 +67,60 @@ class RecipesCreateView(LoginRequiredMixin, CreateView):
         """
 
         # AIからレシピ情報を生成
-        response = model.generate_content(prompt)
+        response = gemini_model.generate_content(prompt)
         recipe_info = markdown.markdown(response.text) if response else "No recipe found."
-
-        # レシピ情報を保存
         form.instance.recipe_info = recipe_info
+
+        # ReplicateのStable Diffusionモデルを使用して画像生成
+        replicate_client = replicate.Client(api_token=RECIPE_IMAGE_API_KEY)
+        model = replicate_client.models.get("stability-ai/stable-diffusion")
+        version = model.versions.list()[0]  # 最新バージョンを使用
+
+        # 画像生成プロンプトの作成
+        image_prompt = f"A delicious dish described as follows: {recipe_info[:200]}..."
+
+        # AI画像生成リクエスト
+        try:
+            prediction = replicate_client.predictions.create(
+                version=version.id,
+                input={"prompt": image_prompt}
+            )
+            prediction = replicate_client.predictions.get(prediction.id)
+
+            # 完了するまで待つ
+            while prediction.status not in ["succeeded", "failed"]:
+                prediction.reload()
+
+            if prediction.status == "succeeded":
+                image_url = prediction.output[0]
+            else:
+                image_url = None
+        except Exception as e:
+            print(f"Error generating image: {e}")
+            image_url = None
+
+        # 画像を保存
+        if image_url:
+            response = requests.get(image_url)
+            if response.status_code == 200:
+                form.instance.recipe_image.save(
+                    f"recipe_{form.instance.id}.png", ContentFile(response.content)
+                )
+        else:
+            # デフォルト画像を設定
+            with open('static/images/sample/sample1.png', 'rb') as f:
+                form.instance.recipe_image.save(
+                    "sample1.png", ContentFile(f.read())
+                )
+
+        # フォーム保存
         self.object = form.save()
 
         # レシピ生成後、DiaryCreateViewにリダイレクト
         return redirect(reverse('recipe:create_diary', kwargs={'recipe_id': self.object.id}))
 
+    
+    
 class DiaryCreateView(LoginRequiredMixin, CreateView):
     model = Diary
     template_name = 'recipe/diary_create.html'

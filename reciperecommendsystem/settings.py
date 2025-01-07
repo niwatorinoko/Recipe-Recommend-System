@@ -31,8 +31,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'rest_framework',
     
     'recipe',
     'authentications',
@@ -140,8 +138,8 @@ env = environ.Env(
 # manage.pyのある階層にある.envを読み込む
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# .envのSECRET_KEYをSECRET_KEYに代入
-GOOGLE_API_KEY = env('GOOGLE_API_KEY')
+RECIPE_TEXT_API_KEY = env('RECIPE_TEXT_API_KEY')
+RECIPE_IMAGE_API_KEY = env('RECIPE_IMAGE_API_KEY')
 
 
 # settings.py

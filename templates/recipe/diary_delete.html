@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <div class="delete-confirm-container">
   <div class="delete-confirm-card">
     <article class="message is-danger">
@@ -15,6 +15,9 @@
         <hr />
         <div class="recipe-info">
           <h4>Recipe:</h4>
+          <img
+            src="{% if diary.recipe.recipe_image %}{{ diary.recipe.recipe_image.url }}{% else %}{% static 'images/sample/sample1.png' %}{% endif %}"
+          />
           <div>{{ diary.recipe.recipe_info|safe }}</div>
         </div>
         <hr />

@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <div class="profile-container">
   <h2 class="is-size-3 has-text-centered">{{ user.username }}'s Diaries</h2>
   <div class="mt-5 has-text-centered">
@@ -12,8 +12,10 @@
     {% for diary in user_diary %}
     <div class="diary-card">
       {% if diary.recipe %}
+      <img
+        src="{% if diary.recipe.recipe_image %}{{ diary.recipe.recipe_image.url }}{% else %}{% static 'images/sample/sample1.png' %}{% endif %}"
+      />
       <h4>{{ diary.recipe.recipe_info|striptags|slice:":50" }}...</h4>
-
       <p><strong>Weather:</strong> {{ diary.recipe.weather }}</p>
       <p><strong>Mood:</strong> {{ diary.recipe.mood }}</p>
       <p><strong>Budget:</strong> {{ diary.recipe.budget }} NTD</p>

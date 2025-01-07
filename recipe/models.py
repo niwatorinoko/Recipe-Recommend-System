@@ -27,6 +27,7 @@ class Recipe(Common):
     num_people = models.IntegerField(verbose_name='People Count', null=True, blank=True)
     # response
     recipe_info = models.TextField(verbose_name='Recipe Info', blank=True, null=True)
+    recipe_image = models.ImageField(upload_to='', blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('recipes:detail', kwargs={'pk': self.pk})

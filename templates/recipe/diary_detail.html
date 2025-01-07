@@ -1,9 +1,12 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <div class="diary-details-container">
   <h2>Diary Details</h2>
 
   <!-- レシピ情報セクション -->
   <div class="diary-section">
+    <img
+    src="{% if diary.recipe.recipe_image %}{{ diary.recipe.recipe_image.url }}{% else %}{% static 'images/sample/sample1.png' %}{% endif %}"
+    />
     <h3>Recipe Info</h3>
     <p>{{ diary.recipe.recipe_info|safe }}</p>
   </div>
