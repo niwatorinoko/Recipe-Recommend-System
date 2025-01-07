@@ -26,7 +26,7 @@
           <figure>
               <img
                 src="{% if recipe.recipe_image %}{{ recipe.recipe_image.url }}{% else %}{% static 'images/sample/sample1.png' %}{% endif %}"
-                alt="{{ recipe.title }}"
+                alt="レシピ画像"
               />
           </figure>
           <div class="text">
@@ -89,6 +89,8 @@
       <li>
         <a href="{% url 'authentications:profile' user.pk %}">View My Diary</a>
       </li>
+      <li>
+        <a href="{% url 'authentications:diary_search' %}">Search User's Diary</a>
       <li>
         <a href="{% url 'authentications:logout' %}">Logout</a>
         {% else %}

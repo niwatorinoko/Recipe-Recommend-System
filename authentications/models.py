@@ -40,6 +40,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100, unique=True, verbose_name='username')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_profile_public = models.BooleanField(
+        default=False,
+        verbose_name='',
+        help_text='If you want to make your profile public, please check this box.'
+    )
 
     objects = UserManager()
 

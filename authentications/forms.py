@@ -68,8 +68,9 @@ class UserLoginForm(forms.Form):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['email', 'username']
+        fields = ['email', 'username', 'is_profile_public']
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'is_profile_public': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

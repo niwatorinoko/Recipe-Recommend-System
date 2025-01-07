@@ -1,13 +1,37 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
 <div class="profile-container">
-  <h2 class="is-size-3 has-text-centered">{{ user.username }}'s Diary</h2>
-  <div class="mt-5 has-text-centered">
-    <a href="{% url 'authentications:edit' %}" class="button is-info"
-      >Edit profile</a
-    >
-  </div>
+  <h2 class="is-size-3 has-text-centered">Search Profiles</h2>
+
+  <!-- 検索フォーム -->
+  <form method="get" action="{% url 'authentications:diary_search' %}" class="mt-5">
+    <div class="field has-addons has-text-centered">
+      <div class="control is-expanded">
+        <input
+          class="input"
+          type="text"
+          name="username"
+          placeholder="Enter username"
+          value="{{ request.GET.username|default:'' }}"
+          required
+        />
+      </div>
+      <div class="control">
+        <button class="button is-info" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- エラーメッセージ -->
+  {% if error %}
+  <p class="has-text-centered has-text-danger mt-5">{{ error }}</p>
+  {% elif user %}
+  <!-- 検索結果の表示 -->
+  <h2 class="is-size-3 has-text-centered mt-5">{{ user.username }}'s Diaries</h2>
+
   {% if user_diary %}
-  <h3 class="is-size-4 has-text-centered mt-5"></h3>
   <div class="diary-list">
     {% for diary in user_diary %}
     <div class="diary-card">
@@ -38,6 +62,7 @@
   </div>
   {% else %}
   <p class="has-text-centered">No diaries found for this user.</p>
+  {% endif %}
   {% endif %}
 </div>
 {% endblock %}

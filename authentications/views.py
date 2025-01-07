@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
-from django.views.generic import FormView, View, DetailView, UpdateView, TemplateView
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import FormView, View, DetailView, UpdateView, TemplateView, ListView
 from django.contrib.auth import authenticate, login, logout,get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.urls import reverse
@@ -128,3 +129,35 @@ class IndexView(TemplateView):
         # 最新の 4 つのレシピを取得
         context['latest_recipes'] = Recipe.objects.order_by('-created_at')[:4]
         return context
+
+
+class DiarySearchView(ListView):
+    """
+    ユーザー名で検索し、公開プロフィールの日記を表示するビュー
+    """
+    template_name = 'authentications/diary_search.html'
+
+    def get(self, request, *args, **kwargs):
+        username = request.GET.get('username', None)
+
+        if not username:
+            return render(request, self.template_name, {'error': 'Please provide a username.'})
+        
+        try:
+            # ユーザーを取得、存在しない場合エラーメッセージを渡す
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return render(request, self.template_name, {'error': 'No user matches the given username.'})
+
+        # プロフィールが非公開の場合
+        if not user.is_profile_public:
+            return render(request, self.template_name, {'error': 'This profile is private.'})
+
+        # 公開されているユーザーの日記を取得
+        user_diary = Diary.objects.filter(author=user).select_related('recipe').order_by('-created_at')
+
+        return render(request, self.template_name, {
+            'user': user,
+            'user_diary': user_diary
+        })
+    
