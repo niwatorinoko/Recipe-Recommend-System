@@ -34,9 +34,33 @@ class RecipesListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = Recipe.objects.order_by('-created_at')
         keyword = self.request.GET.get('keyword')
+        weather = self.request.GET.get('weather')
+        mood = self.request.GET.get('mood')
+        budget = self.request.GET.get('budget')
+        num_people = self.request.GET.get('num_people')
+        rating = self.request.GET.get('rating')
+
+        # キーワード検索
         if keyword:
-            queryset = queryset.filter(recipe_info__icontains=keyword)  # レシピ情報にキーワードを含むレシピを検索
+            queryset = queryset.filter(recipe_info__icontains=keyword)
+        # 天気で絞り込み
+        if weather:
+            queryset = queryset.filter(weather__iexact=weather)
+        # 気分で絞り込み
+        if mood:
+            queryset = queryset.filter(mood__iexact=mood)
+        # 予算で絞り込み
+        if budget:
+            queryset = queryset.filter(budget__lte=budget)
+        # 人数で絞り込み
+        if num_people:
+            queryset = queryset.filter(num_people__gte=num_people)
+        # 評価で絞り込み
+        if rating:
+            queryset = queryset.filter(diary__rating=rating)
+
         return queryset
+
 
 
 class RecipesCreateView(LoginRequiredMixin, CreateView):

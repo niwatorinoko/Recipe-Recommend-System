@@ -3,11 +3,7 @@
   <div id="container">
     <main>
       <!-- 検索フォーム -->
-      <form
-        method="get"
-        action="{% url 'recipe:list' %}"
-        class="search-form menu"
-      >
+      <form method="get" action="{% url 'recipe:list' %}" class="search-form menu">
         <input
           type="text"
           name="keyword"
@@ -15,17 +11,48 @@
           value="{{ request.GET.keyword }}"
           class="input-text"
         />
+        <select name="weather" class="input-select">
+          <option value="">Select Weather</option>
+          <option value="sunny" {% if request.GET.weather == "sunny" %}selected{% endif %}>Sunny</option>
+          <option value="rainy" {% if request.GET.weather == "rainy" %}selected{% endif %}>Rainy</option>
+          <option value="cloudy" {% if request.GET.weather == "cloudy" %}selected{% endif %}>Cloudy</option>
+        </select>
+        <select name="mood" class="input-select">
+          <option value="">Select Mood</option>
+          <option value="happy" {% if request.GET.mood == "happy" %}selected{% endif %}>Happy</option>
+          <option value="sad" {% if request.GET.mood == "sad" %}selected{% endif %}>Sad</option>
+          <option value="energetic" {% if request.GET.mood == "energetic" %}selected{% endif %}>Energetic</option>
+        </select>
+        <input
+          type="number"
+          name="budget"
+          placeholder="Max Budget (NTD)"
+          value="{{ request.GET.budget }}"
+          class="input-text"
+        />
+        <input
+          type="number"
+          name="num_people"
+          placeholder="Number of People"
+          value="{{ request.GET.num_people }}"
+          class="input-text"
+        />
+        <input
+          type="number"
+          name="rating"
+          placeholder="Rating"
+          value="{{ request.GET.rating }}"
+          class="input-text"
+        />
         <button type="submit" class="btn">Search</button>
       </form>
+      
 
       <!-- レシピリスト -->
       {% if object_list %}
       <section class="recipe-list">
         {% for recipe in object_list %}
         <div class="recipe-card">
-          <!-- <figure>
-          <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" />
-        </figure> -->
           <div class="card-content">
             {% if recipe.recipe_image %}
             <img
@@ -38,15 +65,29 @@
               class="recipe-image"
             />
             {% endif %}
-            <h4>{{ recipe.title }}</h4>
-            <p>{{ recipe.recipe_info|safe }}</p>
-            <p class="created-at">Created at: {{ recipe.created_at }}</p>
+            <div class="recipe-details">
+              <p>{{ recipe.recipe_info|safe }}</p>
+              <p>Weather: {{ recipe.weather|default:"Not specified" }}</p>
+              <p>Mood: {{ recipe.mood|default:"Not specified" }}</p>
+              <p>Budget: {{ recipe.budget|default:"Not specified" }} NTD</p>
+              <p>Number of People: {{ recipe.num_people|default:"Not specified" }}</p>
+              <p>
+                Rating: 
+                {% if recipe.diary_set.exists %}
+                  {{ recipe.diary_set.first.rating|default:"No rating available" }}
+                {% else %}
+                  No diary linked
+                {% endif %}
+              </p>
+              <p class="created-at">Created at: {{ recipe.created_at }}</p>
+            </div>
+            
           </div>
         </div>
         {% endfor %}
       </section>
       {% else %}
-      <p>検索結果が見つかりませんでした。</p>
+      <p>Not found</p>
       {% endif %}
 
       <!-- ページネーション -->
